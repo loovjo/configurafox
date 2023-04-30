@@ -55,7 +55,7 @@ pub fn run<'data, R: Resource, D, F: Fn(&Path, &R, &'data D) -> Box<dyn Resource
     data: &'data D,
 ) -> Result<(), ConfigurafoxError> {
 
-    for (path, resource) in resman.all_registered_files() {
+    for (resource, path) in resman.all_registered_files() {
         let processor = processor_for(&path, &resource, data);
 
         info!("Processing {} @ {} w/ {}", resource.identifier(), path.display(), processor.name());

@@ -26,7 +26,7 @@ pub trait Resource: Eq + Hash + Clone + std::fmt::Debug {
 pub struct ResourceManager<R: Resource> {
     project_root: PathBuf,
 
-    registered_resources: HashMap<PathBuf, R>,
+    registered_resources: HashMap<R, PathBuf>,
 }
 
 impl<R: Resource> ResourceManager<R> {
@@ -86,7 +86,7 @@ impl<R: Resource> ResourceManager<R> {
                 };
                 info!("{}: Adding {:?}", entry_path.display(), res.identifier());
 
-                self.registered_resources.insert(entry_path, res);
+                self.registered_resources.insert(res, entry_path);
             }
         }
 
@@ -95,12 +95,12 @@ impl<R: Resource> ResourceManager<R> {
 
     pub fn resource_by_identifier(&self, identifier: &str) -> Option<&R> {
         self.registered_resources
-            .values()
+            .keys()
             .find(|r| r.identifier() == identifier)
 
     }
 
-    pub fn all_registered_files(&self) -> HashMap<PathBuf, R> {
+    pub fn all_registered_files(&self) -> HashMap<R, PathBuf> {
         self.registered_resources.clone()
     }
 }

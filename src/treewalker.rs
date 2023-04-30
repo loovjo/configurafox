@@ -132,7 +132,7 @@ impl<R: Resource, D> TreeWalker<R, D> for LinkReplacer {
             }
             let identifier = &x[1..];
 
-            for (_, resource) in &ctx.resources.all_registered_files() {
+            for (resource, _) in &ctx.resources.all_registered_files() {
                 let path = resource.output_path();
                 if resource.identifier() == identifier {
                     let diff = if let Some(source_dir) = source_dir {
